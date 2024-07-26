@@ -31,12 +31,9 @@ class Game {
   }
 
   success() {
-    if (this.currentSymbol.classList.contains("symbol_current")) this.currentSymbol.classList.remove("symbol_current");
     this.currentSymbol.classList.add('symbol_correct');
     this.currentSymbol = this.currentSymbol.nextElementSibling;
-
     if (this.currentSymbol !== null) {
-      this.currentSymbol.classList.add('symbol_current');
       return;
     }
 
@@ -84,7 +81,7 @@ class Game {
     const html = [...word]
       .map(
         (s, i) =>
-          `${s}`
+          `<span class="symbol ${i === 0 ? 'symbol_current' : ''}">${s}</span>`
       )
       .join('');
     this.wordElement.innerHTML = html;
@@ -92,3 +89,5 @@ class Game {
     this.currentSymbol = this.wordElement.querySelector('.symbol_current');
   }
 }
+
+new Game(document.getElementById('game'))

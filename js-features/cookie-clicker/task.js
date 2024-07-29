@@ -8,14 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
     cookie.addEventListener('mousedown', function () {
         clickTimer = new Date().getTime();
         cookie.style.width = '220px';
-        cookie.style.height = '220px';
     });
 
     cookie.addEventListener('mouseup', function () {
         let clickDuration = (new Date().getTime() - clickTimer) / 1000;
         console.log('Click duration: ' + clickDuration.toFixed(2) + ' seconds');
         cookie.style.width = '200px';
-        cookie.style.height = '200px';
     });
 
     cookie.addEventListener('click', function () {

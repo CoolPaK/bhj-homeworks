@@ -1,13 +1,15 @@
-// Получаем элементы DOM
 const timerElement = document.getElementById('timer');
 
-// Устанавливаем стартовое значение таймера (в секундах)
 let timer = 59;
 
-// Функция обновления таймера
 function updateTimer() {
-    timerElement.textContent = timer;
-    timer;
+    const hours = Math.floor(timer / 3600);
+    const minutes = Math.floor((timer % 3600) / 60);
+    const seconds = timer % 60;
+
+    timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    timer--;
+
     if (timer < 0) {
         clearInterval(intervalId);
         alert('Вы победили в конкурсе!');
@@ -15,5 +17,4 @@ function updateTimer() {
 
 }
 
-// Вызываем функцию обновления таймера каждую секунду
 const intervalId = setInterval(updateTimer, 1000);

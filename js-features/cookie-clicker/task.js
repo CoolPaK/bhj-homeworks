@@ -3,6 +3,20 @@ document.addEventListener('DOMContentLoaded', function () {
     let lastClickTime = new Date().getTime();
     let totalClicks = document.getElementById('clicker__counter');
     let cookie = document.getElementById('cookie');
+    let clickTimer;
+
+    cookie.addEventListener('mousedown', function () {
+        clickTimer = new Date().getTime();
+        cookie.style.width = '220px';
+        cookie.style.height = '220px';
+    });
+
+    cookie.addEventListener('mouseup', function () {
+        let clickDuration = (new Date().getTime() - clickTimer) / 1000;
+        console.log('Click duration: ' + clickDuration.toFixed(2) + ' seconds');
+        cookie.style.width = '200px';
+        cookie.style.height = '200px';
+    });
 
     cookie.addEventListener('click', function () {
         clicks++;
@@ -13,14 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
         lastClickTime = currentTime;
 
         let clickSpeed = 1 / timeDifference;
-        console.log(clickSpeed.toFixed(2));
-
-        if (cookie.width === '200') {
-            cookie.width = '180';
-            cookie.height = '180';
-        } else {
-            cookie.width = '200';
-            cookie.height = '200';
-        }
+        console.log('Click speed: ' + clickSpeed.toFixed(2) + ' clicks per second');
     });
 });

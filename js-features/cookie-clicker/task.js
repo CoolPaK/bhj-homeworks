@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let totalClicks = document.getElementById('clicker__counter');
     let cookie = document.getElementById('cookie');
     let clickTimer;
+    let clickDurationDisplay = document.createElement('div');
+    clickDurationDisplay.classList.add('click-duration');
+    cookie.parentElement.appendChild(clickDurationDisplay);
 
     cookie.addEventListener('mousedown', function () {
         clickTimer = new Date().getTime();
@@ -12,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cookie.addEventListener('mouseup', function () {
         let clickDuration = (new Date().getTime() - clickTimer) / 1000;
-        console.log('Click duration: ' + clickDuration.toFixed(2) + ' seconds');
+        clickDurationDisplay.textContent = 'Click duration: ' + clickDuration.toFixed(2) + ' seconds';
         cookie.style.width = '200px';
     });
 

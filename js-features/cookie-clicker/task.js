@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     cookie.addEventListener('mouseup', function () {
         let clickDuration = (new Date().getTime() - clickTimer) / 1000;
-        clickDurationDisplay.textContent = 'Click duration: ' + clickDuration.toFixed(2) + ' seconds';
+        clickDurationDisplay.textContent = 'Скорость клика: ' + clickDuration.toFixed(2) + ' seconds';
         cookie.style.width = '200px';
     });
 

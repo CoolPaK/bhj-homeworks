@@ -19,20 +19,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (score === 10) {
-            alert('Победа! Вы победили кротов!');
-            score = 0;
-            misses = 0;
-            deadDisplay.textContent = score;
-            lostDisplay.textContent = misses;
+            endGame('Победа! Вы победили кротов!');
         }
 
         if (misses === 5) {
-            alert('Игра окончена! Вы проиграли.');
-            score = 0;
-            misses = 0;
-            deadDisplay.textContent = score;
-            lostDisplay.textContent = misses;
+            endGame('Игра окончена! Вы проиграли.');
         }
+    }
+
+    function endGame(message) {
+        alert(message);
+        score = 0;
+        misses = 0;
+        deadDisplay.textContent = score;
+        lostDisplay.textContent = misses;
     }
 
     holes.forEach((hole, index) => {

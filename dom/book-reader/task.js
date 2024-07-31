@@ -1,3 +1,4 @@
+// Получаем все необходимые элементы
 const fontSizes = document.querySelectorAll('.font-size');
 const textColors = document.querySelectorAll('.color.text_color');
 const bgColors = document.querySelectorAll('.color.bg_color');
@@ -10,14 +11,11 @@ function changeFontSize(event) {
     fontSizes.forEach(item => item.classList.remove('font-size_active'));
     event.target.classList.add('font-size_active');
 
+    book.classList.remove('book_fs-big', 'book_fs-small');
     if (event.target.dataset.size === 'small') {
-        book.classList.remove('book_fs-big');
         book.classList.add('book_fs-small');
     } else if (event.target.dataset.size === 'big') {
-        book.classList.remove('book_fs-small');
         book.classList.add('book_fs-big');
-    } else {
-        book.classList.remove('book_fs-big', 'book_fs-small');
     }
 }
 
@@ -43,6 +41,7 @@ function changeBgColor(event) {
     book.classList.add(`book_bg-${event.target.dataset.bgColor}`);
 }
 
+// Добавляем обработчики событий
 fontSizes.forEach(item => item.addEventListener('click', changeFontSize));
 textColors.forEach(item => item.addEventListener('click', changeTextColor));
 bgColors.forEach(item => item.addEventListener('click', changeBgColor));

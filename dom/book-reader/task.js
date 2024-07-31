@@ -43,21 +43,6 @@ function changeBgColor(event) {
     book.classList.add(`book_bg-${event.target.dataset.bgColor}`);
 }
 
-fontSizes.forEach(item => {
-    item.addEventListener('click', changeFontSize);
-    item.addEventListener('click', function (event) {
-        event.preventDefault();
-    });
-});
-textColors.forEach(item => {
-    item.addEventListener('click', changeTextColor);
-    item.addEventListener('click', function (event) {
-        event.preventDefault();
-    });
-});
-bgColors.forEach(item => {
-    item.addEventListener('click', changeBgColor);
-    item.addEventListener('click', function (event) {
-        event.preventDefault();
-    });
-});
+fontSizes.forEach(item => item.addEventListener('click', changeFontSize));
+textColors.forEach(item => item.addEventListener('click', changeTextColor));
+bgColors.forEach(item => item.addEventListener('click', changeBgColor));

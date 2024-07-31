@@ -11,18 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function whackMole(e) {
         if (e.target.classList.contains('hole_has-mole')) {
-            score++;
-            deadDisplay.textContent = score;
+            deadDisplay.textContent = ++score;
         } else {
-            misses++;
-            lostDisplay.textContent = misses;
+            lostDisplay.textContent = ++misses;
         }
 
         if (score === 10) {
             endGame('Победа! Вы победили кротов!');
-        }
-
-        if (misses === 5) {
+        } else if (misses === 5) {
             endGame('Игра окончена! Вы проиграли.');
         }
     }

@@ -1,10 +1,10 @@
-// Получаем все элементы с классом ‘rotator’
+// Получаем все элементы с классом 'rotator'
 const rotators = document.querySelectorAll('.rotator');
 
 // Проходимся по каждому rotator
 rotators.forEach(rotator => {
 
-    // Получаем все дочерние элементы с классом ‘rotator__case’
+    // Получаем все дочерние элементы с классом 'rotator__case'
     const cases = rotator.querySelectorAll('.rotator__case');
 
     // Устанавливаем начальный индекс текущего активного элемента

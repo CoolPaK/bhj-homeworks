@@ -34,7 +34,7 @@ function changeTextColor(event) {
 function changeBgColor(event) {
     event.preventDefault();
 
-    bgColors.forEach(item => List.remove('color_active'));
+    bgColors.forEach(item => item.classList.remove('color_active'));
     event.target.classList.add('color_active');
 
     book.classList.remove('book_bg-gray', 'book_bg-black', 'book_bg-white');

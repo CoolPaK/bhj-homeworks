@@ -1,7 +1,7 @@
 // Получаем все необходимые элементы
 const fontSizes = document.querySelectorAll('.font-size');
-const textColors = document.querySelectorAll('.color.text_color');
-const bgColors = document.querySelectorAll('.color.bg_color');
+const textColors = document.querySelectorAll('.color.text_color_black, .color.text_color_gray, .color.text_color_whitesmoke');
+const bgColors = document.querySelectorAll('.color.bg_color_black, .color.bg_color_gray, .color.bg_color_white');
 const book = document.getElementById('book');
 
 // Функция для смены размера шрифта
@@ -34,7 +34,7 @@ function changeTextColor(event) {
 function changeBgColor(event) {
     event.preventDefault();
 
-    bgColors.forEach(item => item.classList.remove('color_active'));
+    bgColors.forEach(item => List.remove('color_active'));
     event.target.classList.add('color_active');
 
     book.classList.remove('book_bg-gray', 'book_bg-black', 'book_bg-white');

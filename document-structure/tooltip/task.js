@@ -1,44 +1,57 @@
-// Получаем все элементы с классом "has-tooltip"
-const tooltipTriggers = document.querySelectorAll('.has-tooltip');
+document.addEventListener('DOMContentLoaded', function () {
+    const tooltipElements = document.querySelectorAll('.has-tooltip');
+    let currentTooltipElement = null;
 
-// Функция для показа подсказки
-function showTooltip(event) {
-    // Создаем элемент подсказки
-    const tooltip = document.createElement('div');
-    tooltip.classList.add('tooltip');
-    tooltip.textContent = this.getAttribute('title');
+    function showTooltip(event) {
+        event.preventDefault(); // Предотвращаем перезагрузку страницы
+        const tooltipElement = event.currentTarget.querySelector('.tooltip');
+        if (tooltipElement) {
+            const { x, y, width, height } = event.currentTarget.getBoundingClientRect();
+            const tooltipPosition = event.currentTarget.getAttribute('data-position') || 'top';
+            let tooltipX, tooltipY;
 
-    // Определяем положение подсказки
-    const position = this.getAttribute('data-position') || 'top';
-    tooltip.classList.add(`tooltip--${position}`);
+            switch (tooltipPosition) {
+                case 'top':
+                    tooltipX = x + width / 2;
+                    tooltipY = y - tooltipElement.offsetHeight - 10;
+                    break;
+                case 'left':
+                    tooltipX = x - tooltipElement.offsetWidth - 10;
+                    tooltipY = y + height / 2 - tooltipElement.offsetHeight / 2;
+                    break;
+                case 'right':
+                    tooltipX = x + width + 10;
+                    tooltipY = y + height / 2 - tooltipElement.offsetHeight / 2;
+                    break;
+                case 'bottom':
+                    tooltipX = x + width / 2;
+                    tooltipY = y + height + 10;
+                    break;
+            }
 
-    // Добавляем подсказку в DOM
-    this.appendChild(tooltip);
-
-    // Добавляем класс, чтобы показать подсказку
-    this.classList.add('tooltip_active');
-
-    // Обработчик события, чтобы скрыть подсказку при клике вне ее
-    document.addEventListener('click', hideTooltip);
-}
-
-// Функция для скрытия подсказки
-function hideTooltip(event) {
-    // Проверяем, был ли клик внутри подсказки
-    if (!event.target.closest('.tooltip')) {
-        // Скрываем все активные подсказки
-        const activeTooltips = document.querySelectorAll('.tooltip_active');
-        activeTooltips.forEach(tooltip => {
-            tooltip.classList.remove('tooltip_active');
-            tooltip.querySelector('.tooltip').remove();
-        });
-
-        // Удаляем обработчик события
-        document.removeEventListener('click', hideTooltip);
+            tooltipElement.style.left = `${tooltipX}px`;
+            tooltipElement.style.top = `${tooltipY}px`;
+            tooltipElement.classList.add('tooltip_active');
+            if (currentTooltipElement && currentTooltipElement !== tooltipElement) {
+                currentTooltipElement.classList.remove('tooltip_active');
+            }
+            currentTooltipElement = tooltipElement;
+        }
     }
-}
 
-// Добавляем обработчик события клика на все элементы с классом "has-tooltip"
-tooltipTriggers.forEach(trigger => {
-    trigger.addEventListener('click', showTooltip);
+    function hideTooltip() {
+        if (currentTooltipElement) {
+            currentTooltipElement.classList.remove('tooltip_active');
+            currentTooltipElement = null;
+        }
+    }
+
+    tooltipElements.forEach((element) => {
+        const tooltip = document.createElement('div');
+        tooltip.classList.add('tooltip');
+        tooltip.textContent = element.getAttribute('title');
+        element.appendChild(tooltip);
+        element.addEventListener('click', showTooltip);
+        element.addEventListener('mouseleave', hideTooltip);
+    });
 });

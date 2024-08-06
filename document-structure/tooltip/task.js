@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             switch (tooltipPosition) {
                 case 'top':
-                    tooltipX = x + width / 2;
+                    tooltipX = x + width / 2 - tooltipElement.offsetWidth / 2;
                     tooltipY = y - tooltipElement.offsetHeight - 10;
                     break;
                 case 'left':
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     tooltipY = y + height / 2 - tooltipElement.offsetHeight / 2;
                     break;
                 case 'bottom':
-                    tooltipX = x + width / 2;
+                    tooltipX = x + width / 2 - tooltipElement.offsetWidth / 2;
                     tooltipY = y + height + 10;
                     break;
             }

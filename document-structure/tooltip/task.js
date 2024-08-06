@@ -29,9 +29,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     break;
             }
 
+            // Проверяем, чтобы подсказка не выходила за пределы экрана
+            const maxX = window.innerWidth - tooltipElement.offsetWidth - 10;
+            const maxY = window.innerHeight - tooltipElement.offsetHeight - 10;
+            tooltipX = Math.min(Math.max(tooltipX, 10), maxX);
+            tooltipY = Math.min(Math.max(tooltipY, 10), maxY);
+
             tooltipElement.style.left = `${tooltipX}px`;
             tooltipElement.style.top = `${tooltipY}px`;
             tooltipElement.classList.add('tooltip_active');
+
             if (currentTooltipElement && currentTooltipElement !== tooltipElement) {
                 currentTooltipElement.classList.remove('tooltip_active');
             }

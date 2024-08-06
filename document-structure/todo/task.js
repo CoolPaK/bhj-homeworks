@@ -1,7 +1,7 @@
 // Получаем необходимые элементы
-const taskInput = document.getElementById('task-input');
-const addTaskBtn = document.getElementById('add-task-btn');
-const taskList = document.getElementById('task-list');
+const taskInput = document.getElementById('task__input');
+const addTaskBtn = document.getElementById('tasks__add');
+const taskList = document.getElementById('tasks__list');
 
 // Функция для создания новой задачи
 function createTask(title) {
@@ -88,7 +88,6 @@ function editTask(task) {
             saveTasks();
         }
     });
-
     task.appendChild(saveBtn);
 }
 
@@ -99,7 +98,6 @@ taskInput.addEventListener('keydown', event => {
         addTask();
     }
 });
-
 taskList.addEventListener('dblclick', event => {
     if (event.target.classList.contains('task__title')) {
         editTask(event.target.parentElement);

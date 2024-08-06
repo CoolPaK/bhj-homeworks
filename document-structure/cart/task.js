@@ -1,6 +1,16 @@
 // Получаем элементы корзины и всех товаров
 const cartProductsContainer = document.querySelector('.cart__products');
+const cartTitle = document.querySelector('.cart__title');
 const products = document.querySelectorAll('.product');
+
+// Функция для обновления отображения корзины
+function updateCartVisibility() {
+    if (cartProductsContainer.children.length > 0) {
+        cartTitle.style.display = 'block';
+    } else {
+        cartTitle.style.display = 'none';
+    }
+}
 
 // Обработчик события для каждого товара
 products.forEach(product => {
@@ -50,10 +60,30 @@ products.forEach(product => {
             countElement.classList.add('cart__product-count');
             countElement.textContent = productCount;
 
+            // Создаем кнопку для удаления товара
+            const removeButton = document.createElement('div');
+            removeButton.classList.add('cart__product-remove');
+            removeButton.textContent = 'Удалить';
+            removeButton.style.cursor = 'pointer';
+            removeButton.style.color = 'red';
+
+            // Удаляем товар из корзины
+            removeButton.addEventListener('click', () => {
+                cartProduct.remove();
+                updateCartVisibility();
+            });
+
             // Собираем элемент корзины
             cartProduct.appendChild(img);
             cartProduct.appendChild(countElement);
+            cartProduct.appendChild(removeButton);
             cartProductsContainer.appendChild(cartProduct);
         }
+
+        // Обновляем видимость корзины
+        updateCartVisibility();
     });
 });
+
+// Изначально скрываем заголовок корзины, если она пуста
+updateCartVisibility();

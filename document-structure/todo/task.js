@@ -3,29 +3,29 @@ const taskInput = document.getElementById('task__input');
 const addTaskBtn = document.getElementById('tasks__add');
 const taskList = document.getElementById('tasks__list');
 
-// Функция для создания новой задачи
+// Функция для создания новой задачи с использованием шаблонных строк
 function createTask(title) {
+    const taskHTML = `
+        <div class="task">
+            <div class="task__title">${title}</div>
+            <a href="#" class="task__remove">&times;</a>
+        </div>
+    `;
     const taskDiv = document.createElement('div');
-    taskDiv.classList.add('task');
+    taskDiv.innerHTML = taskHTML;
 
-    const titleDiv = document.createElement('div');
-    titleDiv.classList.add('task__title');
-    titleDiv.textContent = title;
+    const removeBtn = taskDiv.querySelector('.task__remove');
+    removeBtn.addEventListener('click', (event) => {
+        event.preventDefault(); // предотвращаем переход по ссылке
+        removeTask(taskDiv.firstChild);
+    });
 
-    const removeBtn = document.createElement('a');
-    removeBtn.classList.add('task__remove');
-    removeBtn.href = '#';
-    removeBtn.textContent = '×';
-    removeBtn.addEventListener('click', () => removeTask(taskDiv));
-
-    taskDiv.appendChild(titleDiv);
-    taskDiv.appendChild(removeBtn);
-
-    return taskDiv;
+    return taskDiv.firstChild;
 }
 
 // Функция для добавления новой задачи
-function addTask() {
+function addTask(event) {
+    event.preventDefault(); // предотвращаем стандартное действие формы
     const taskTitle = taskInput.value.trim();
     if (taskTitle !== '') {
         const newTask = createTask(taskTitle);
@@ -56,8 +56,6 @@ function loadTasks() {
     });
 }
 
-// Дополнительные функции повышенного уровня сложности
-
 // Функция для сортировки задач по алфавиту
 function sortTasks() {
     const tasks = Array.from(taskList.children);
@@ -80,7 +78,8 @@ function editTask(task) {
     saveBtn.classList.add('task__save');
     saveBtn.href = '#';
     saveBtn.textContent = '✓';
-    saveBtn.addEventListener('click', () => {
+    saveBtn.addEventListener('click', (event) => {
+        event.preventDefault(); // предотвращаем переход по ссылке
         const newTitle = editInput.value.trim();
         if (newTitle !== '') {
             titleDiv.textContent = newTitle;
@@ -95,7 +94,7 @@ function editTask(task) {
 addTaskBtn.addEventListener('click', addTask);
 taskInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
-        addTask();
+        addTask(event);
     }
 });
 taskList.addEventListener('dblclick', event => {

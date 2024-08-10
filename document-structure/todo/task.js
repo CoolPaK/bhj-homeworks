@@ -18,10 +18,10 @@ function createTask(title) {
     const removeBtn = taskDiv.querySelector('.task__remove');
     removeBtn.addEventListener('click', (event) => {
         event.preventDefault(); // предотвращаем переход по ссылке
-        removeTask(taskDiv.firstChild);
+        removeTask(taskDiv.firstChild); // передаем правильный элемент для удаления
     });
 
-    return taskDiv.firstChild;
+    return taskDiv.firstChild; // возвращаем созданный элемент задачи
 }
 
 // Функция для добавления новой задачи
@@ -30,9 +30,9 @@ function addTask(event) {
     const taskTitle = taskInput.value.trim();
     if (taskTitle !== '') {
         const newTask = createTask(taskTitle);
-        taskList.appendChild(newTask);
-        taskInput.value = '';
-        saveTasks();
+        taskList.appendChild(newTask); // добавляем задачу в список
+        taskInput.value = ''; // очищаем поле ввода
+        saveTasks(); // сохраняем задачи
     }
 }
 

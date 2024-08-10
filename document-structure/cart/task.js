@@ -5,11 +5,18 @@ const products = document.querySelectorAll('.product');
 
 // Функция для обновления отображения корзины
 function updateCartVisibility() {
-    if (cartProductsContainer.children.length > 0) {
-        cartTitle.style.display = 'block';
-    } else {
-        cartTitle.style.display = 'none';
-    }
+    cartTitle.style.display = cartProductsContainer.children.length > 0 ? 'block' : 'none';
+}
+
+// Функция для создания элемента товара в корзине
+function createCartProductElement(productId, productImage, productCount) {
+    return `
+        <div class="cart__product" data-id="${productId}">
+            <img class="cart__product-image" src="${productImage}">
+            <div class="cart__product-count">${productCount}</div>
+            <div class="cart__product-remove" style="cursor: pointer; color: red;">Удалить</div>
+        </div>
+    `;
 }
 
 // Обработчик события для каждого товара
@@ -46,38 +53,16 @@ products.forEach(product => {
             countElement.textContent = parseInt(countElement.textContent) + productCount;
         } else {
             // Если товара нет, создаем новый элемент корзины
-            cartProduct = document.createElement('div');
-            cartProduct.classList.add('cart__product');
-            cartProduct.dataset.id = productId;
-
-            // Создаем изображение товара в корзине
-            const img = document.createElement('img');
-            img.classList.add('cart__product-image');
-            img.src = productImage;
-
-            // Создаем элемент для количества товара
-            const countElement = document.createElement('div');
-            countElement.classList.add('cart__product-count');
-            countElement.textContent = productCount;
-
-            // Создаем кнопку для удаления товара
-            const removeButton = document.createElement('div');
-            removeButton.classList.add('cart__product-remove');
-            removeButton.textContent = 'Удалить';
-            removeButton.style.cursor = 'pointer';
-            removeButton.style.color = 'red';
+            const newCartProductHTML = createCartProductElement(productId, productImage, productCount);
+            cartProductsContainer.insertAdjacentHTML('beforeend', newCartProductHTML);
+            cartProduct = cartProductsContainer.lastElementChild;
 
             // Удаляем товар из корзины
+            const removeButton = cartProduct.querySelector('.cart__product-remove');
             removeButton.addEventListener('click', () => {
                 cartProduct.remove();
                 updateCartVisibility();
             });
-
-            // Собираем элемент корзины
-            cartProduct.appendChild(img);
-            cartProduct.appendChild(countElement);
-            cartProduct.appendChild(removeButton);
-            cartProductsContainer.appendChild(cartProduct);
         }
 
         // Обновляем видимость корзины

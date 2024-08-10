@@ -14,6 +14,7 @@ function createTask(title) {
     const taskDiv = document.createElement('div');
     taskDiv.innerHTML = taskHTML;
 
+    // Получаем элементы для обработки событий
     const removeBtn = taskDiv.querySelector('.task__remove');
     removeBtn.addEventListener('click', (event) => {
         event.preventDefault(); // предотвращаем переход по ссылке

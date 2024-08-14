@@ -1,15 +1,25 @@
-const form = document.getElementById('form');
+let progress = document.getElementById('progress');
+let form = document.getElementById('form');
 
-form.addEventListener('submit', (e) => {
-    let formData = new FormData(form);
-    const progress = document.getElementById('progress');
-    const xhr = new XMLHttpRequest();
+form.addEventListener('submit', function (event) {
+    let input = form.elements.file;
+    let file = input.files[0];
 
-    e.preventDefault();
-    xhr.open('POST', 'https://netology-slow-rest.herokuapp.com/upload.php');
-    xhr.upload.onprogress = function (event) {
-        let percent = event.loaded / event.total;
-        progress.value = percent;
+    if (file) {
+        upload(file);
     }
-    xhr.send(formData);
+
+    event.preventDefault();
 });
+
+function upload(file) {
+    let xhr = new XMLHttpRequest();
+
+    xhr.upload.onprogress = function (event) {
+        progress.setAttribute('max', event.total);
+        progress.value = event.loaded;
+    }
+
+    xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/upload');
+    xhr.send(file);
+}

@@ -1,25 +1,30 @@
+// Получаем элементы из DOM
 let progress = document.getElementById('progress');
 let form = document.getElementById('form');
 
+// Обработчик событий для отправки формы
 form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Отменяем стандартное поведение формы
+
     let input = form.elements.file;
     let file = input.files[0];
 
     if (file) {
-        upload(file);
+        upload(file); // Загружаем файл, если он выбран
+    } else {
+        alert('Пожалуйста, выберите файл для загрузки.'); // Уведомление, если файл не выбран
     }
-
-    event.preventDefault(); // Отменяем стандартное поведение формы
 });
 
+// Функция для загрузки файла
 function upload(file) {
     let xhr = new XMLHttpRequest();
 
     // Обработчик события прогресса загрузки
     xhr.upload.onprogress = function (event) {
         if (event.lengthComputable) {
-            progress.setAttribute('max', event.total);
-            progress.value = event.loaded;
+            progress.setAttribute('max', event.total); // Устанавливаем максимальное значение
+            progress.value = event.loaded; // Обновляем значение прогресса
         }
     };
 
@@ -29,7 +34,7 @@ function upload(file) {
             alert('Файл успешно загружен!'); // Уведомление об успешной загрузке
             progress.value = progress.getAttribute('max'); // Устанавливаем прогресс на 100%
         } else {
-            alert('Произошла ошибка при загрузке файла.'); // Уведомление об ошибке
+            alert('Произошла ошибка при загрузке файла: ' + xhr.statusText); // Уведомление об ошибке
         }
     };
 

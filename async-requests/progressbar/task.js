@@ -1,46 +1,18 @@
-document.getElementById('file').onchange = function () {
-    const fileDesc = document.querySelector('.input__wrapper-desc');
-    let fileName = this.value.split('\\');
-    file[fileName.length - 1];
-    fileDesc.textContent = fileName || 'Не выбран ни один файл';
-};
+let form = document.getElementById("form");
+let progress = document.getElementById("progress");
 
-document.getElementById('form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Отменяем стандартное поведение формы
+form.addEventListener('submit', () => {
+    var formData = new FormData(form);
 
-    const fileInput = document.getElementById('file');
-    const file = fileInput.files[0];
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://netology-slow-rest.herokuapp.com/upload.php');
+    xhr.send(formData);
 
-    if (!file) {
-        alert('Пожалуйста, выберите файл для загрузки.');
-        return;
+    xhr.upload.onprogress = function () {
+        alert('Загружено на сервер');
     }
 
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const xhr = new XMLHttpRequest();
-    const progress = document.getElementById('progress');
-
-    // Обработчик события загрузки
-    xhr.upload.addEventListener('progress', function (e) {
-        if (e.lengthComputable) {
-            const percentComplete = (e.loaded / e.total) * 100;
-            progress.value = percentComplete; // Обновляем значение прогресса
-        }
-    });
-
-    // Обработчик события завершения загрузки
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            alert('Файл успешно загружен!');
-            progress.value = 100; // Установим прогресс на 100%
-        } else {
-            alert('Произошла ошибка при загрузке файла.');
-        }
-    };
-
-    // Отправка формы
-    xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/upload');
-    xhr.send(formData);
-});
+    xhr.upload.onprogress = function (event) {
+        console.log(event);
+    }
+})

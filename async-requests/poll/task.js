@@ -32,28 +32,17 @@ async function submitVote(voteId, answerIndex) {
         body: `vote=${voteId}&answer=${answerIndex}`
     });
 
-    if (response.ok) {
-        alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
-        await showResults(); // Показ результатов голосования
-    } else {
-        alert('Произошла ошибка при голосовании. Пожалуйста, попробуйте снова.');
-    }
+    const result = await response.json();
+    alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
+    showResults(result.stat); // Показ результатов голосования
 }
 
-// Функция для получения и отображения результатов голосования
-async function showResults() {
-    const response = await fetch(API_URL);
-    const data = await response.json();
-
-    // Очистка предыдущих ответов перед обновлением
-    pollAnswers.innerHTML = '';
-
-    const totalVotes = data.stat.reduce((acc, item) => acc + item.votes, 0);
-
-    data.stat.forEach(item => {
-        const percentage = totalVotes ? ((item.votes / totalVotes) * 100).toFixed(2) : 0;
+// Функция для отображения результатов голосования
+function showResults(stat) {
+    pollAnswers.innerHTML = ''; // Очистка предыдущих ответов
+    stat.forEach(item => {
         const result = document.createElement('div');
-        result.textContent = `${item.answer}: ${percentage}% (${item.votes} голосов)`;
+        result.textContent = `${item.answer}: ${item.votes} голосов`;
         pollAnswers.appendChild(result);
     });
 }

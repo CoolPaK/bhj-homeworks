@@ -3,15 +3,17 @@ const loader = document.getElementById('loader');
 const itemsContainer = document.getElementById('items');
 const API_URL = 'https://students.netoservices.ru/nestjs-backend/slow-get-courses';
 const CACHE_KEY = 'currencyData';
-const CACHE_EXPIRY = 60000; // 1 minute
+const CACHE_EXPIRY = 60000; // 1 минута
 
 async function fetchCurrencyData() {
     loader.classList.add('loader_active'); // Показать анимацию загрузки
+
     const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY));
 
     // Проверка кэша
     if (cachedData && (Date.now() - cachedData.timestamp < CACHE_EXPIRY)) {
         renderCurrencyData(cachedData.data);
+        loader.classList.remove('loader_active'); // Скрыть анимацию загрузки
         return;
     }
 
@@ -42,4 +44,8 @@ function renderCurrencyData(valute) {
     }
 }
 
-fetchCurrencyData(); // Вызов функции для загрузки данных
+// Первоначальная загрузка данных
+fetchCurrencyData();
+
+// Обновление данных каждую минуту
+setInterval(fetchCurrencyData, 60000);

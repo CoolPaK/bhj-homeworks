@@ -26,25 +26,32 @@ function renderPoll(data) {
 
 // Функция для отправки голосования
 async function submitVote(voteId, answerIndex) {
-    const response = await fetch(API_URL, {
+    await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `vote=${voteId}&answer=${answerIndex}`
     });
 
-    const result = await response.json();
     alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
-    showResults(result.stat); // Показ результатов голосования
+    showResults(); // Показ результатов голосования
 }
 
-// Функция для отображения результатов голосования
-function showResults(stat) {
+// Функция для получения и отображения результатов голосования
+async function showResults() {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    const totalVotes = data.stat.reduce((acc, item) => acc + item.votes, 0);
+
     pollAnswers.innerHTML = ''; // Очистка предыдущих ответов
-    stat.forEach(item => {
+    data.stat.forEach(item => {
+        const percentage = totalVotes ? ((item.votes / totalVotes) * 100).toFixed(2) : 0;
         const result = document.createElement('div');
-        result.textContent = `${item.answer}: ${item.votes} голосов`;
+        result.textContent = `${item.answer}: ${percentage}% (${item.votes} голосов)`;
         pollAnswers.appendChild(result);
     });
+
+    // Задержка перед загрузкой следующего опроса
+    setTimeout(fetchPoll, 2000); // Загрузить новый опрос через 2 секунды
 }
 
 // Загрузка опроса при загрузке страницы

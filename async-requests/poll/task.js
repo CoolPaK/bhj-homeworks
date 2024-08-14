@@ -26,22 +26,22 @@ function renderPoll(data) {
 
 // Функция для отправки голосования
 async function submitVote(voteId, answerIndex) {
-    await fetch(API_URL, {
+    const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `vote=${voteId}&answer=${answerIndex}`
     });
 
+    const result = await response.json();
     alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
-    await showResults(voteId); // Показ результатов голосования
+    showResults(); // Показ результатов голосования
 }
 
 // Функция для получения и отображения результатов голосования
-async function showResults(voteId) {
+async function showResults() {
     const response = await fetch(API_URL);
     const data = await response.json();
 
-    // Получаем и отображаем результаты
     const totalVotes = data.stat.reduce((acc, item) => acc + item.votes, 0);
 
     pollAnswers.innerHTML = ''; // Очистка предыдущих ответов

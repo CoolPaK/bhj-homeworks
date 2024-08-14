@@ -3,7 +3,7 @@ const loader = document.getElementById('loader');
 const itemsContainer = document.getElementById('items');
 const API_URL = 'https://students.netoservices.ru/nestjs-backend/slow-get-courses';
 const CACHE_KEY = 'currencyData';
-const CACHE_EXPIRY = 60000; // 1 minute
+const CACHE_EXPIRY = 60000; // 1 минута
 
 async function fetchCurrencyData() {
     loader.classList.add('loader_active'); // Показать анимацию загрузки
@@ -12,19 +12,17 @@ async function fetchCurrencyData() {
     // Проверка кэша
     if (cachedData && (Date.now() - cachedData.timestamp < CACHE_EXPIRY)) {
         renderCurrencyData(cachedData.data);
-        return;
+    } else {
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ data: data.response.Valute, timestamp: Date.now() }));
+            renderCurrencyData(data.response.Valute);
+        } catch (error) {
+            console.error('Ошибка при загрузке данных: ', error);
+        }
     }
-
-    try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ data: data.response.Valute, timestamp: Date.now() }));
-        renderCurrencyData(data.response.Valute);
-    } catch (error) {
-        console.error('Ошибка при загрузке данных: ', error);
-    } finally {
-        loader.classList.remove('loader_active'); // Скрыть анимацию загрузки
-    }
+    loader.classList.remove('loader_active'); // Скрыть анимацию загрузки
 }
 
 function renderCurrencyData(valute) {
@@ -42,5 +40,8 @@ function renderCurrencyData(valute) {
     }
 }
 
-fetchCurrencyData(); // Вызов функции для загрузки данных
+// Первоначальная загрузка данных
+fetchCurrencyData();
 
+// Обновление данных каждую минуту
+setInterval(fetchCurrencyData, 60000);

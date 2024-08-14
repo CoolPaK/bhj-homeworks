@@ -32,9 +32,12 @@ async function submitVote(voteId, answerIndex) {
         body: `vote=${voteId}&answer=${answerIndex}`
     });
 
-    const result = await response.json();
-    alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
-    showResults(); // Показ результатов голосования
+    if (response.ok) {
+        alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
+        showResults(); // Показ результатов голосования
+    } else {
+        alert('Произошла ошибка при голосовании. Пожалуйста, попробуйте снова.');
+    }
 }
 
 // Функция для получения и отображения результатов голосования

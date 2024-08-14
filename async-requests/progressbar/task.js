@@ -1,3 +1,10 @@
+document.getElementById('file').onchange = function () {
+    const fileDesc = document.querySelector('.input__wrapper-desc');
+    let fileName = this.value.split('\\');
+    file[fileName.length - 1];
+    fileDesc.textContent = fileName || 'Не выбран ни один файл';
+};
+
 document.getElementById('form').addEventListener('submit', function (event) {
     event.preventDefault(); // Отменяем стандартное поведение формы
 
@@ -23,7 +30,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
         }
     });
 
-    //работчик события завершения загрузки
+    // Обработчик события завершения загрузки
     xhr.onload = function () {
         if (xhr.status === 200) {
             alert('Файл успешно загружен!');

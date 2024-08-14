@@ -1,4 +1,3 @@
-// task.js
 const pollTitle = document.getElementById('poll__title');
 const pollAnswers = document.getElementById('poll__answers');
 const API_URL = 'https://students.netoservices.ru/nestjs-backend/poll';

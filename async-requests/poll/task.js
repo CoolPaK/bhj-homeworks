@@ -5,9 +5,17 @@ const API_URL = 'https://students.netoservices.ru/nestjs-backend/poll';
 
 // Функция для получения данных опроса
 async function fetchPoll() {
-    const response = await fetch(API_URL);
-    const data = await response.json();
-    renderPoll(data);
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`Ошибка сети: ${response.status}`);
+        }
+        const data = await response.json();
+        renderPoll(data);
+    } catch (error) {
+        console.error('Ошибка при получении опроса:', error);
+        alert('Не удалось загрузить опрос. Пожалуйста, попробуйте позже.');
+    }
 }
 
 // Функция для отображения опроса
@@ -26,15 +34,24 @@ function renderPoll(data) {
 
 // Функция для отправки голосования
 async function submitVote(voteId, answerIndex) {
-    const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `vote=${voteId}&answer=${answerIndex}`
-    });
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `vote=${voteId}&answer=${answerIndex}`
+        });
 
-    const result = await response.json();
-    alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
-    showResults(result.stat); // Показ результатов голосования
+        if (!response.ok) {
+            throw new Error(`Ошибка сети: ${response.status}`);
+        }
+
+        const result = await response.json();
+        alert('Спасибо, ваш голос засчитан!'); // Сообщение после голосования
+        showResults(result.stat); // Показ результатов голосования
+    } catch (error) {
+        console.error('Ошибка при отправке голоса:', error);
+        alert('Не удалось отправить ваш голос. Пожалуйста, попробуйте позже.');
+    }
 }
 
 // Функция для отображения результатов голосования

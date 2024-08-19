@@ -9,17 +9,14 @@ textarea {
   box-sizing: border-box;
 }
 
-button {
+#clearBtn {
   padding: 10px 15px;
-  background-color: #28a745;
-  /* Зеленый цвет */
-  color: white;
+  background-color: #279d41;
+  color:white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
 }
 
-button:hover {
-  background-color: #218838;
-  /* Темнее при наведении */
+#clearBtn:hover {
+  background-color: #094404;
 }

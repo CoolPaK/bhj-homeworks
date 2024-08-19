@@ -8,3 +8,18 @@ textarea {
   border: 1px solid #e2e2e2;
   box-sizing: border-box;
 }
+
+button {
+  padding: 10px 15px;
+  background-color: #28a745;
+  /* Зеленый цвет */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+  /* Темнее при наведении */
+}
